@@ -8,21 +8,26 @@
 // reappears if the page opts in via data-mobile-sidebar="before" on
 // #page-content, in which case it's shown above the content instead of the
 // desktop's side-by-side layout.
+//
+// Pages that set data-sidebar="none" on #page-content get a single
+// full-width content column with no sidebar on any screen size.
 (function () {
   var content = document.getElementById('page-content');
   if (!content) return;
 
   var mobileSidebarMode = content.getAttribute('data-mobile-sidebar');
+  var noSidebar = content.getAttribute('data-sidebar') === 'none';
 
   var wrapper = document.createElement('div');
   wrapper.className = 'content-wrapper';
   wrapper.innerHTML =
     '<div class="main-container w-container">' +
       '<div class="w-row">' +
-        '<div class="w-hidden-small w-hidden-tiny w-col w-col-3">' +
-          '<div class="sidebar-slot"></div>' +
-        '</div>' +
-        '<div class="content-column w-col w-col-9">' +
+        (noSidebar ? '' :
+          '<div class="w-hidden-small w-hidden-tiny w-col w-col-3">' +
+            '<div class="sidebar-slot"></div>' +
+          '</div>') +
+        '<div class="content-column w-col ' + (noSidebar ? 'content-column-full w-col-12' : 'w-col-9') + '">' +
           '<div class="page-content-slot"></div>' +
         '</div>' +
       '</div>' +
@@ -33,7 +38,7 @@
   var contentColumn = wrapper.querySelector('.content-column');
   contentColumn.querySelector('.page-content-slot').replaceWith(content);
 
-  if (mobileSidebarMode === 'before') {
+  if (!noSidebar && mobileSidebarMode === 'before') {
     var mobileSidebar = document.createElement('div');
     mobileSidebar.className = 'sidebar-on-mobile';
     mobileSidebar.innerHTML = '<div class="sidebar-slot"></div>';

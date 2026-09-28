@@ -2626,6 +2626,16 @@ figcaption {
   padding-left: 20px;
 }
 
+/* Full-width pages (no sidebar): cap line length and center the content. */
+.content-column.content-column-full {
+  float: none;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .blog-page-image {
   background-image: url("https://d3e54v103j8qbb.cloudfront.net/img/background-image.svg");
   background-position: 50%;
